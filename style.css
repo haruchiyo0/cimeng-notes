@@ -1,0 +1,556 @@
+:root {
+  --pink: #f5d2d2;
+  --yellow: #f8f7ba;
+  --green: #bde3c3;
+  --blue: #a3ccda;
+  --text-dark: #333;
+  --text-light: #555;
+  --white: #fff;
+  --card-bg: var(--white);
+  --muted: var(--text-light);
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.10);
+  --border-radius: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-sm: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--pink);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  line-height: 1.5;
+}
+
+/* App Bar */
+app-bar {
+  display: block;
+  background: var(--blue);
+  color: var(--white);
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: var(--shadow-light);
+  transition: box-shadow 0.3s ease;
+}
+
+app-bar:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Note-Item: Fallback Global Styles */
+note-item {
+  display: block !important;
+  background: var(--white);
+  padding: 1.75rem;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(163, 204, 218, 0.2);
+  box-shadow: var(--shadow-light);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
+  min-height: 200px;
+  transition: all 0.3s ease;
+  word-wrap: break-word;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+note-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--blue), var(--green));
+}
+
+note-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--blue);
+}
+
+note-item h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-dark);
+}
+
+note-item p {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+note-item small {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+note-item .buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+note-item button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+note-item p#body {
+  max-height: 4.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  cursor: pointer;
+  transition: max-height 0.3s ease;
+}
+
+note-item.expanded p#body {
+  max-height: none;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  cursor: default;
+}
+
+note-item .edit {
+  background: var(--green);
+  color: var(--white);
+}
+
+note-item .delete {
+  background: #dc3545;
+  color: var(--white);
+}
+
+note-item .archive {
+  background: var(--yellow);
+  color: var(--text-dark);
+}
+
+note-item button:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-light);
+}
+
+/* Animasi */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+note-item {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Main Layout */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Top Controls */
+.top-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  z-index: 10;
+  margin-bottom: 1rem;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--blue);
+  border-radius: var(--border-radius-sm);
+  font-size: 1rem;
+  background: var(--white);
+  transition: border-color 0.3s;
+}
+
+#searchInput:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 4px rgba(189, 227, 195, 0.3);
+  outline: none;
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filters button {
+  background: var(--white);
+  border: 1px solid var(--blue);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.filters button:hover,
+.filters button.active {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--green);
+  transform: scale(1.02);
+}
+
+#notesCount {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  font-weight: 500;
+  padding: 0.75rem;
+  background: var(--yellow);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-light);
+}
+
+/* Notes Section */
+.notes-section {
+  flex: 1;
+  min-height: 400px;
+}
+
+/* Notes Container */
+#notesContainer {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 0;
+  min-height: 60vh;
+  width: 100%;
+  background: transparent;
+  overflow: visible !important;
+  z-index: 1;
+}
+
+/* Empty State */
+#notesContainer p {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.1rem;
+  padding: 2rem;
+}
+
+/* Add Form Overlay */
+#addNoteForm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+#addNoteForm.hidden {
+  display: none !important;
+}
+
+#addNoteForm:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+#addNoteForm > note-form {
+  background: var(--yellow);
+  padding: 2.5rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-hover);
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#closeFormBtn {
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-light);
+}
+
+#closeFormBtn:hover {
+  background: var(--green);
+  transform: scale(1.05);
+}
+
+/* FAB */
+#addNoteFAB {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-hover);
+  transition: all 0.3s ease;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#addNoteFAB:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Indicator */
+#loadingIndicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+#loadingIndicator.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#loadingIndicator.active::after {
+  content: 'Loading...';
+  color: var(--white);
+  font-size: 1.2rem;
+  background: var(--blue);
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius);
+}
+
+/* Modal Popup */
+#noteModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+#noteModal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#noteModal .modal-content {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  max-width: 90%;
+  max-height: 80vh;
+  width: 500px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+#noteModal .close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+#noteModal .close-btn:hover {
+  color: #000;
+}
+
+#noteModal .note-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+#noteModal .note-body {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  white-space: pre-wrap;
+}
+
+#noteModal .note-meta {
+  font-size: 0.9rem;
+  color: #888;
+  text-align: right;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  main {
+    padding: 0.5rem;
+  }
+
+  .top-controls {
+    padding: 0.75rem;
+    position: relative;
+  }
+
+  .filters {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .filters button {
+    min-width: 80px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  #searchInput {
+    font-size: 16px;
+  }
+
+  #notesContainer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    min-height: 50vh;
+  }
+
+  #addNoteForm > note-form {
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+
+  #addNoteFAB {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  #noteModal .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  #noteModal .note-title {
+    font-size: 1.5rem;
+  }
+
+  app-bar {
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
+  }
+}

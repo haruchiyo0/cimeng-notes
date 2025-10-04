@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Notes App</title>
+  <link rel="stylesheet" href="/style.css" />  <!-- Ini kunci! Path absolute dari root -->
+  <link rel="manifest" href="/manifest.json" />  <!-- Opsional -->
+</head>
+<body>
+  <app-bar>Cimeng Notes</app-bar>
+  
+  <main>
+    <!-- Search & Filters di atas (sticky jika perlu) -->
+    <div class="top-controls">
+      <input type="search" id="searchInput" placeholder="Cari notes... (judul atau isi)">
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Semua Notes</button>
+        <button class="filter-btn" data-filter="active">Aktif</button>
+        <button class="filter-btn" data-filter="archived">Arsip</button>
+      </div>
+      <span id="notesCount">0 notes</span>
+    </div>
+    
+    <!-- Notes Container Full Width -->
+    <section class="notes-section">
+      <div class="notes-container" id="notesContainer"></div>
+    </section>
+    
+    <!-- Form Tambah Note (Tersembunyi Awal, Muncul Saat FAB Click) -->
+    <div id="addNoteForm" class="add-form hidden">
+      <note-form></note-form>
+      <button id="closeFormBtn" class="close-btn">Tutup</button>
+    </div>
+  </main>
+  
+  <!-- FAB: Tombol Tambah di Kanan Bawah -->
+  <button id="addNoteFAB" class="fab">+
+  </button>
+  
+  <loading-indicator id="loadingIndicator">
+    <div class="spinner"></div>
+  </loading-indicator>
+
+  <script type="module" src="/src/index.js"></script>
+</body>
+</html>
